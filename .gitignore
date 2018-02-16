@@ -13,7 +13,10 @@ Makefile.Debug
 Makefile.Release
 object_script.MotaCoin-qt.Debug
 object_script.MotaCoin-qt.Release
-.qm
+
+# Compilation and Qt preprocessor part
+*.qm
+MotaCoin-Qt.app
 
 
 ## Eclipse
