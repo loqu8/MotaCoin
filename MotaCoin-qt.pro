@@ -13,7 +13,6 @@ QT += core gui network widgets
 lessThan(QT_MAJOR_VERSION, 5): CONFIG += static
 QMAKE_CXXFLAGS = -fpermissive
 win32:QMAKE_CXXFLAGS += -Wa,-mbig-obj
-macx:QMAKE_CXXFLAGS += -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += widgets
@@ -77,6 +76,9 @@ contains(RELEASE, 1) {
         LIBS += -Wl,-Bstatic
     }
 }
+# come back and fix this later
+macx:QMAKE_CXXFLAGS += -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk -mmacosx-version-min=10.10
+
 
 !win32 {
 # for extra security against potential buffer overflows: enable GCCs Stack Smashing Protection
