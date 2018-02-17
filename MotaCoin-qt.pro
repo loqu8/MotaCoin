@@ -41,7 +41,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 #    QMAKE_CFLAGS += -arch x86_64
 #    QMAKE_LFLAGS += -arch x86_64 -stdlib=libc++
 
-
+QMAKE_CXXFLAGS += -Wa,-mbig-obj
 
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
