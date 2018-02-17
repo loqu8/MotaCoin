@@ -241,7 +241,7 @@ long hex2long(const char* hexString);
 
 inline std::string i64tostr(int64_t n)
 {
-    //return strprintf("%"PRId64, n);
+    //return strprintf("%" PRId64," n);
 	std::ostringstream o;
 	o << n;
 	return o.str();
