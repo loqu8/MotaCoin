@@ -1,0 +1,178 @@
+
+
+---
+
+
+pacman -S mingw-w64-i686-qrencode  mingw-w64-x86_64-qrencode
+
+perhaps i have to configure form scratch again?
+
+
+
+--- 
+
+__imp_zmq_ctx_destroy
+
+there is an issue where -lzmq is added before the library folder definition
+this causes failure
+D:\consulting\mota\src/zmq/zmqpublishnotifier.cpp:22: undefined reference to `__imp_zmq_msg_init_size'
+
+
+# Summary
+
+
+./configure --includedir=/mingw64/include --libdir=/mingw64/lib --with-gui=qt5 --with-qt-incdir=/mingw64/include --with-qt-libdir=/mingw64/lib --with-boost-libdir=/mingw64/lib
+
+
+
+
+pacman -S mingw-w64-i686-nsis mingw-w64-x86_64-nsis
+pacman -S mingw-w64-x86_64-protobuf mingw-w64-i686-protobuf
+pacman -S mingw-w64-x86_64-zeromq mingw-w64-i686-zeromq
+pacman -S mingw-w64-x86_64-boost mingw-w64-i686-boost
+pacman -S mingw-w64-i686-qt-creator mingw-w64-x86_64-qt-creator
+pacman -S mingw-w64-i686-qt5-static mingw-w64-x86_64-qt5-static
+
+build Berkeley DB 4.8 from scratch, make install
+
+also https://github.com/orlp/dev-on-windows/wiki/Installing-GCC--&-MSYS2
+
+also some issues with the m4 folder needs to be re-created and re-populated
+
+
+-----
+for nsis
+pacman -S mingw-w64-i686-nsis mingw-w64-x86_64-nsis
+
+
+./configure --includedir=/mingw64/include --libdir=/mingw64/lib --with-gui=qt5 --with-qt-incdir=/mingw64/include --with-qt-libdir=/mingw64/lib --with-boost-libdir=/mingw64/lib
+
+ok, this works....
+
+
+-----	
+Now try --libdir=/mingw64/lib
+checking zmq.h usability... no
+checking zmq.h presence... no
+checking for zmq.h... no
+configure: WARNING: zmq.h not found, disabling zmq support
+checking for zmq_ctx_shutdown in -lzmq... no
+configure: WARNING: libzmq >= 4.0 not found, disabling zmq support
+checking for main in -lprotobuf ... no
+configure: error: libprotobuf not found
+
+
+$ pacman -S mingw-w64-x86_64-protobuf mingw-w64-i686-protobuf
+$ pacman -S mingw-w64-x86_64-zeromq mingw-w64-i686-zeromq
+$ ./configure --incdir=/mingw64/include --with-gui=qt5 --libdir=/mingw64/lib    
+
+
+---
+next address qt libdir
+
+
+----
+./configure --with-boost-libdir=/mingw64/lib --with-qt-incdir=/mingw64/include --with-qt-libdir=/mingw64/lib --with-gui=qt5
+
+
+-----
+configure: error: Could not find a version of the boost_system library!
+
+running ./configure --with-boost-libdir= is fixing the initial issue with the misleading error message.
+
+checking for boostlib >= 1.20.0... yes
+checking whether the Boost::System library is available... yes
+configure: error: Could not find a version of the boost_system library!
+
+ Could not find a version of the boost_system library
+ 
+ 
+
+
+--------------
+ok for berkeley db you have to build from scratch
+
+https://bitcointalk.org/index.php?topic=45507.0
+
+make edit p_threadid
+$ sh ../dist/configure --enable-mingw --enable-cxx --disable-replication
+
+db.h in build_unix/
+@ Line 113 Replace
+
+typedef pthread_t db_threadid_t;
+
+with
+
+typedef u_int32_t db_threadid_t;
+
+then make
+then make install
+
+
+
+-----
+makensis not found
+
+----
+for berkeley db we have to install cxx headers
+$ pacman -S mingw-w64-i686-db mingw-w64-x86_64-db
+
+--------
+for boost pacman -Ss boost
+$ pacman -S mingw-w64-x86_64-boost mingw-w64-i686-boost
+
+pacman -S mingw-w64-i686-qt-creator mingw-w64-x86_64-qt-creator
+
+
+
+
+
+# Setting up the environment
+0. Had to goof around and recreate m4 folder
+1. Install mys2
+2. pacman -S git
+3. pacman -S automake
+4. pacman -S base-devel
+5. pacman -S mingw-w64-x86_64-toolchain
+6. pacman -S pkg-config
+7. pacman -S nano
+8. pacman -S autoconf-archive
+9. pacman -S autoconf automake berkeley-db4 libtool boost miniupnpc openssl pkg-config protobuf qt5
+
+After all this still there will be issues with AC_CHECK_LIB
+
+configure.ac:225: error: possibly undefined macro: AC_CHECK_LIB
+      If this token and others are legitimate, please use m4_pattern_allow.
+      See the Autoconf documentation.
+configure.ac:225: error: possibly undefined macro: AC_MSG_ERROR
+configure.ac:251: error: possibly undefined macro: AC_MSG_WARN
+configure.ac:719: error: possibly undefined macro: PKG_CHECK_MODULES
+configure.ac:741: error: possibly undefined macro: AC_CHECK_HEADER
+
+
+     TARGET_OS=windows
+     AC_CHECK_LIB([mingwthrd],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([kernel32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([user32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([gdi32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([comdlg32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([winspool],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([winmm],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([shell32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([comctl32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([ole32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([oleaut32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([uuid],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([rpcrt4],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([advapi32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([ws2_32],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([mswsock],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([shlwapi],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([iphlpapi],      [main],, AC_MSG_ERROR(lib missing))
+     AC_CHECK_LIB([crypt32],      [main],, AC_MSG_ERROR(lib missing))
+
+	 
+	https://github.com/orlp/dev-on-windows/wiki/Installing-GCC--&-MSYS2
+	
+	
