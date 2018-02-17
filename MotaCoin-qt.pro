@@ -18,7 +18,15 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
+# use pacman -S for msys2 (win32)
 win32:BOOST_LIB_SUFFIX=-mt
+
+# use brew install for macx
+macx:BDB_INCLUDE_PATH=/usr/local/opt/berkeley-db@4/include
+macx:BDB_LIB_PATH=/usr/local/opt/berkeley-db@4/lib
+macx:OPENSSL_INCLUDE_PATH=/usr/local/opt/openssl/include
+macx:OPENSSL_LIB_PATH=/usr/local/opt/openssl/lib
+
 #Added win32 conditional - Yash
 #    QMAKE_TARGET_BUNDLE_PREFIX = co.opalcoin
 #    BOOST_LIB_SUFFIX=-mt
