@@ -41,8 +41,6 @@ greaterThan(QT_MAJOR_VERSION, 4) {
 #    QMAKE_CFLAGS += -arch x86_64
 #    QMAKE_LFLAGS += -arch x86_64 -stdlib=libc++
 
-QMAKE_CXXFLAGS += -Wa,-mbig-obj
-
 # for boost 1.37, add -mt to the boost libraries
 # use: qmake BOOST_LIB_SUFFIX=-mt
 # for boost thread win32 with _win32 sufix
@@ -77,7 +75,9 @@ QMAKE_LFLAGS *= -fstack-protector-all --param ssp-buffer-size=1
 # This can be enabled for Windows, when we switch to MinGW >= 4.4.x.
 }
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
-win32:QMAKE_LFLAGS *= -Wl,--large-address-aware -static
+win32:QMAKE_CXXFLAGS += -Wa,-mbig-obj
+#win32:QMAKE_LFLAGS *= -Wl,--large-address-aware -static
+win32:QMAKE_LFLAGS *= -static
 win32:QMAKE_LFLAGS += -static-libgcc -static-libstdc++
 lessThan(QT_MAJOR_VERSION, 5): win32: QMAKE_LFLAGS *= -static
 
