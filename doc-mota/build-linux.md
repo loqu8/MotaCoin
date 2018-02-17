@@ -20,11 +20,22 @@ openssl         1.0.2g          `sudo apt-get install libssl-dev`
 miniupnpc       1.9.20140610    `sudo apt-get install libminiupnpc-dev`
 qrencode        3.4.4           `sudo apt-get install libqrencode-dev`
 qt              5.5.1           `sudo apt-get install qt5-default qt5-qmake qtbase5-dev-tools qttools5-dev-tools`
-*berkeley-db@4   4.8.30          `sudo apt-get install berkeley-db4`*
 libevent        2.0.21          `sudo apt-get install libevent-dev`
 
 or all together:
 `sudo apt-get install build-essential libboost-all-dev libssl-dev libminiupnpc-dev libqrencode-dev qt5-default qt5-qmake qtbase5-dev-tools qttools5-dev-tools berkeley-db4 libevent-dev`
+
+### Berkeley DB4
+This must be manually installed as the current version is 5.3.28.
+```
+wget http://download.oracle.com/berkeley-db/db-4.8.30.zip
+unzip db-4.8.30.zip
+cd db-4.8.30
+cd build_unix/
+../dist/configure --prefix=/usr/local --enable-cxx
+make
+make install
+```
 
 ## Build MotaCoin-Qt
 1. Run `qmake` to create Makefile from MotaCoin-qt.pro
