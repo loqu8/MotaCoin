@@ -12,13 +12,23 @@ QT += core gui network widgets
 #greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 lessThan(QT_MAJOR_VERSION, 5): CONFIG += static
 QMAKE_CXXFLAGS = -fpermissive
+win32:QMAKE_CXXFLAGS += -Wa,-mbig-obj
+macx:QMAKE_CXXFLAGS += -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/usr/include
 
 greaterThan(QT_MAJOR_VERSION, 4) {
     QT += widgets
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
+# use pacman -S for msys2 (win32)
 win32:BOOST_LIB_SUFFIX=-mt
+
+# use brew install for macx
+macx:BDB_INCLUDE_PATH=/usr/local/opt/berkeley-db@4/include
+macx:BDB_LIB_PATH=/usr/local/opt/berkeley-db@4/lib
+macx:OPENSSL_INCLUDE_PATH=/usr/local/opt/openssl/include
+macx:OPENSSL_LIB_PATH=/usr/local/opt/openssl/lib
+
 #Added win32 conditional - Yash
 #    QMAKE_TARGET_BUNDLE_PREFIX = co.opalcoin
 #    BOOST_LIB_SUFFIX=-mt
@@ -76,7 +86,6 @@ QMAKE_LFLAGS *= -fstack-protector-all --param ssp-buffer-size=1
 # This can be enabled for Windows, when we switch to MinGW >= 4.4.x.
 }
 # for extra security on Windows: enable ASLR and DEP via GCC linker flags
-win32:QMAKE_CXXFLAGS += -Wa,-mbig-obj
 #win32:QMAKE_LFLAGS *= -Wl,--large-address-aware -static
 win32:QMAKE_LFLAGS *= -static
 win32:QMAKE_LFLAGS += -static-libgcc -static-libstdc++
