@@ -18,6 +18,7 @@ greaterThan(QT_MAJOR_VERSION, 4) {
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
 
+win32:BOOST_LIB_SUFFIX=-mt
 #Added win32 conditional - Yash
 #    QMAKE_TARGET_BUNDLE_PREFIX = co.opalcoin
 #    BOOST_LIB_SUFFIX=-mt
